@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Library – Student View</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f1f4f9;
+    }
+
+    /* PAGE WRAPPER */
+    .page {
+      max-width: 1000px;
+      margin: 28px auto;
+      padding: 0 14px;
+    }
+
+    /* HEADER */
+    .header {
+      background: #1f3a8a;
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .header-title h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .header-title span {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .header-actions button {
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid #dbe2ff;
+      background: #ffffff;
+      color: #1f3a8a;
+      cursor: pointer;
+    }
+
+    .header-actions button:hover {
+      background: #eef2ff;
+    }
+
+    /* CONTENT */
+    .content {
+      background: #ffffff;
+      border: 1px solid #d1d5e0;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 18px 22px 22px;
+    }
+
+    .notice {
+      padding: 10px 14px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+    }
+
+    /* SEARCH */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .search-bar label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    input[type="number"] {
+      padding: 7px 9px;
+      font-size: 13px;
+      border-radius: 4px;
+      border: 1px solid #cbd2e1;
+      outline: none;
+      min-width: 150px;
+    }
+
+    input[type="number"]:focus {
+      border-color: #1f3a8a;
+      box-shadow: 0 0 0 2px rgba(31,58,138,0.15);
+    }
+
+    .btn-search {
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: 1px solid #1f3a8a;
+      background: #1f3a8a;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .btn-search:hover {
+      background: #172554;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    #searchMessage {
+      min-height: 16px;
+    }
+
+    /* TABLE */
+    h3 {
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-size: 15px;
+      color: #1f2937;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #ffffff;
+      border: 1px solid #d1d5e0;
+    }
+
+    th, td {
+      padding: 8px 7px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      background: #f3f4f6;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    tr:nth-child(even) {
+      background: #f9fafb;
+    }
+
+    tr:hover {
+      background: #eef2ff;
+    }
+
+    .status-available {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #e6f4ea;
+      color: #166534;
+      border: 1px solid #9fd7b1;
+      display: inline-block;
+    }
+
+    .status-issued {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+      display: inline-block;
+    }
+
+    .highlight {
+      background: #fff7d6 !important;
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 640px) {
+      .content {
+        padding: 14px;
+      }
+      table {
+        font-size: 12px;
+      }
+      th, td {
+        padding: 6px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-title">
+        <h1>Smart Library Management System</h1>
+        <span>Student Portal – Read-only Access</span>
+      </div>
+      <div class="header-actions">
+        <button onclick="goToAdminLogin()">Admin Login</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="notice">
+        This page allows students to view and search library books.  
+        Editing, issuing, or returning books is restricted to authorised library staff.
+      </div>
+
+      <div class="search-bar">
+        <label for="searchId">Search by Book ID:</label>
+        <input type="number" id="searchId" placeholder="Enter Book ID">
+        <button class="btn-search" onclick="searchBook()">Search</button>
+        <span id="searchMessage" class="small"></span>
+      </div>
+
+      <h3>Available Books</h3>
+      <div class="small">
+        Book information is synchronised with the Admin Dashboard using browser storage.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Status</th>
+            <th>Student</th>
+            <th>USN</th>
+          </tr>
+        </thead>
+        <tbody id="booksBody"></tbody>
+      </table>
+
+      <div class="footer">
+        © 2025 Smart Library Management System · For academic use only by NK team
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BOOK_KEY = "smartLibraryBooks";
+    let books = [];
+
+    function goToAdminLogin() {
+      window.location.href = "admin-login.html";
+    }
+
+    function loadBooks() {
+      const data = localStorage.getItem(BOOK_KEY);
+      if (data) {
+        try { books = JSON.parse(data); } catch { books = []; }
+      }
+      renderBooks();
+    }
+
+    function renderBooks() {
+      const tbody = document.getElementById("booksBody");
+      tbody.innerHTML = "";
+      books.forEach(b => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${b.id}</td>
+          <td>${b.title}</td>
+          <td>${b.author}</td>
+          <td>${b.year}</td>
+          <td>
+            <span class="${b.isIssued ? "status-issued" : "status-available"}">
+              ${b.isIssued ? "Issued" : "Available"}
+            </span>
+          </td>
+          <td>${b.studentName || "-"}</td>
+          <td>${b.studentUsn || "-"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearSearchHighlight() {
+      document.querySelectorAll("#booksBody tr")
+        .forEach(row => row.classList.remove("highlight"));
+      document.getElementById("searchMessage").textContent = "";
+    }
+
+    function searchBook() {
+      clearSearchHighlight();
+      const id = parseInt(document.getElementById("searchId").value);
+      const msgEl = document.getElementById("searchMessage");
+
+      if (!id) {
+        msgEl.textContent = "Please enter a valid Book ID.";
+        return;
+      }
+
+      const index = books.findIndex(b => b.id == id);
+      if (index === -1) {
+        msgEl.textContent = "No book found with ID " + id + ".";
+        return;
+      }
+
+      const rows = document.querySelectorAll("#booksBody tr");
+      if (rows[index]) {
+        rows[index].classList.add("highlight");
+        msgEl.textContent = "Book found and highlighted in the table.";
+      }
+    }
+
+    window.addEventListener("load", loadBooks);
+  </script>
+</body>
+</html>

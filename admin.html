@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Library - Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; padding: 0; background: #f4f6fb; }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    h1 { text-align: center; margin-bottom: 5px; }
+    .subtitle { text-align: center; font-size: 14px; color: #555; margin-bottom: 15px; }
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #e8f0fe;
+      color: #1a3fb2;
+      border: 1px solid #9bb3ff;
+    }
+    .btn {
+      border: none;
+      border-radius: 5px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .btn-primary { background: #4c6fff; color: #fff; }
+    .btn-primary:hover { background: #3b57d9; }
+    .btn-danger { background: #ff4c4c; color: #fff; }
+    .btn-danger:hover { background: #e04343; }
+    .btn-secondary { background: #ffb020; color: #fff; }
+    .btn-secondary:hover { background: #e09c1c; }
+    .small { font-size: 12px; color: #555; }
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .form-group {
+      flex: 1;
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
+    label { font-weight: 600; margin-bottom: 2px; }
+    input[type="text"], input[type="number"], input[type="password"] {
+      padding: 6px 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #4c6fff;
+      box-shadow: 0 0 0 2px rgba(76,111,255,0.2);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 13px;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border-bottom: 1px solid #eee;
+      padding: 8px 6px;
+      text-align: left;
+    }
+    th {
+      background: #f0f3ff;
+      font-weight: 700;
+    }
+    tr:nth-child(even) { background: #fafbff; }
+    .status-available { color: #1a7f37; font-weight: 700; }
+    .status-issued { color: #b3261e; font-weight: 700; }
+    .highlight { background: #fff7d6 !important; }
+    .admin-list { margin-top: 8px; padding-left: 16px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Smart Library - Admin Dashboard</h1>
+    <div class="subtitle">
+      Admin can Add / Edit / Delete / Issue / Return books.<br>
+      Only Main Admin can create additional admin users.
+    </div>
+
+    <div class="top-bar">
+      <span id="roleBadge" class="badge"></span>
+      <div>
+        <button class="btn btn-primary" onclick="goToStudent()">Student View</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- BOOK MANAGEMENT -->
+    <h3>Book Details (Add / Edit)</h3>
+    <div class="small">Use this form to add new books.</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="bookId">Book ID</label>
+        <input type="number" id="bookId" placeholder="e.g. 101">
+      </div>
+      <div class="form-group">
+        <label for="bookTitle">Title</label>
+        <input type="text" id="bookTitle" placeholder="Book title">
+      </div>
+      <div class="form-group">
+        <label for="bookAuthor">Author</label>
+        <input type="text" id="bookAuthor" placeholder="Author name">
+      </div>
+      <div class="form-group">
+        <label for="bookYear">Year</label>
+        <input type="number" id="bookYear" placeholder="e.g. 2024">
+      </div>
+    </div>
+    <button class="btn btn-primary" id="addBtn" onclick="addOrUpdateBook()">Add Book</button>
+    <span id="editInfo" class="small" style="margin-left:8px;color:#b3261e;"></span>
+
+    <h3>Books List</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>Title</th><th>Author</th><th>Year</th>
+          <th>Status</th><th>Student</th><th>USN</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="booksBody"></tbody>
+    </table>
+
+    <!-- MAIN ADMIN SECTION -->
+    <div id="adminSection">
+      <hr style="margin:25px 0 15px;">
+      <h3>Main Admin – Manage Admin Users</h3>
+      <div class="small">
+        Only the Main Admin can add more admin users. Normal admins can't see this section.
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="newAdminUser">New Admin User ID</label>
+          <input type="text" id="newAdminUser" placeholder="e.g. librarian01">
+        </div>
+        <div class="form-group">
+          <label for="newAdminPass">New Admin Password</label>
+          <input type="password" id="newAdminPass" placeholder="Set a password">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addAdminUser()">Add Admin User</button>
+      <div id="adminMsg" class="small" style="margin-top:6px;"></div>
+
+      <div class="small" style="margin-top:10px;"><b>Existing Admins:</b></div>
+      <ul id="adminList" class="admin-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const BOOK_KEY = "smartLibraryBooks";
+    const ADMIN_KEY = "smartLibraryAdmins";
+    const SESSION_KEY = "smartLibraryLoggedAdmin";
+
+    let books = [];
+    let admins = [];
+    let loggedInAdmin = null;
+    let editIndex = -1;
+
+    function goToStudent() {
+      window.location.href = "index.html";
+    }
+
+    function logout() {
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "admin-login.html";
+    }
+
+    function loadSession() {
+      const data = localStorage.getItem(SESSION_KEY);
+      if (!data) {
+        alert("Please login as admin first.");
+        window.location.href = "admin-login.html";
+        return;
+      }
+      loggedInAdmin = JSON.parse(data);
+      const badge = document.getElementById("roleBadge");
+      if (loggedInAdmin.role === "main") {
+        badge.textContent = "MAIN ADMIN";
+      } else {
+        badge.textContent = "ADMIN";
+      }
+    }
+
+    function loadBooks() {
+      const data = localStorage.getItem(BOOK_KEY);
+      if (data) {
+        try { books = JSON.parse(data); } catch { books = []; }
+      }
+      renderBooks();
+    }
+
+    function saveBooks() {
+      localStorage.setItem(BOOK_KEY, JSON.stringify(books));
+    }
+
+    function renderBooks() {
+      const tbody = document.getElementById("booksBody");
+      tbody.innerHTML = "";
+      books.forEach((b, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${b.id}</td>
+          <td>${b.title}</td>
+          <td>${b.author}</td>
+          <td>${b.year}</td>
+          <td>
+            <span class="${b.isIssued ? "status-issued" : "status-available"}">
+              ${b.isIssued ? "Issued" : "Available"}
+            </span>
+          </td>
+          <td>${b.studentName || "-"}</td>
+          <td>${b.studentUsn || "-"}</td>
+          <td>
+            <button class="btn btn-secondary" onclick="issueBook(${i})">Issue</button>
+            <button class="btn" onclick="returnBook(${i})">Return</button>
+            <button class="btn btn-danger" onclick="deleteBook(${i})">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearForm() {
+      document.getElementById("bookId").value = "";
+      document.getElementById("bookTitle").value = "";
+      document.getElementById("bookAuthor").value = "";
+      document.getElementById("bookYear").value = "";
+      editIndex = -1;
+      document.getElementById("addBtn").textContent = "Add Book";
+      document.getElementById("editInfo").textContent = "";
+    }
+
+    function addOrUpdateBook() {
+      const id = parseInt(document.getElementById("bookId").value);
+      const title = document.getElementById("bookTitle").value.trim();
+      const author = document.getElementById("bookAuthor").value.trim();
+      const year = parseInt(document.getElementById("bookYear").value);
+
+      if (!id || !title || !author || !year) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const existingIndex = books.findIndex(b => b.id === id);
+      if (existingIndex !== -1 && existingIndex !== editIndex) {
+        alert("Book ID already exists.");
+        return;
+      }
+
+      if (editIndex === -1) {
+        books.push({
+          id, title, author, year,
+          isIssued: false,
+          studentName: "",
+          studentUsn: ""
+        });
+      } else {
+        books[editIndex].id = id;
+        books[editIndex].title = title;
+        books[editIndex].author = author;
+        books[editIndex].year = year;
+      }
+
+      saveBooks();
+      renderBooks();
+      clearForm();
+    }
+
+    function issueBook(i) {
+      const b = books[i];
+      if (b.isIssued) {
+        alert("Already issued to " + b.studentName + " (" + b.studentUsn + ")");
+        return;
+      }
+      const name = prompt("Enter Student Name:");
+      if (!name) return;
+      const usn = prompt("Enter Student USN:");
+      if (!usn) return;
+
+      b.isIssued = true;
+      b.studentName = name.trim();
+      b.studentUsn = usn.trim();
+
+      saveBooks();
+      renderBooks();
+    }
+
+    function returnBook(i) {
+      const b = books[i];
+      if (!b.isIssued) {
+        alert("This book is not issued.");
+        return;
+      }
+      if (!confirm("Confirm return?")) return;
+
+      b.isIssued = false;
+      b.studentName = "";
+      b.studentUsn = "";
+
+      saveBooks();
+      renderBooks();
+    }
+
+    function deleteBook(i) {
+      if (!confirm("Delete this book?")) return;
+      books.splice(i, 1);
+      saveBooks();
+      renderBooks();
+    }
+
+    // ---------- ADMIN USERS (MAIN ONLY) ----------
+
+    function loadAdmins() {
+      const data = localStorage.getItem(ADMIN_KEY);
+      if (data) {
+        try { admins = JSON.parse(data); } catch { admins = []; }
+      } else {
+        admins = [{ username:"admin", password:"admin123", role:"main" }];
+        localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
+      }
+      renderAdmins();
+    }
+
+    function renderAdmins() {
+      const ul = document.getElementById("adminList");
+      ul.innerHTML = "";
+      admins.forEach(a => {
+        const li = document.createElement("li");
+        li.textContent = `${a.username} (${a.role})`;
+        ul.appendChild(li);
+      });
+    }
+
+    function addAdminUser() {
+      if (!loggedInAdmin || loggedInAdmin.role !== "main") {
+        alert("Only Main Admin can add users.");
+        return;
+      }
+      const user = document.getElementById("newAdminUser").value.trim();
+      const pass = document.getElementById("newAdminPass").value.trim();
+      const msg = document.getElementById("adminMsg");
+
+      if (!user || !pass) {
+        msg.textContent = "User ID and Password required.";
+        msg.style.color = "#b3261e";
+        return;
+      }
+
+      if (admins.some(a => a.username === user)) {
+        msg.textContent = "This admin already exists.";
+        msg.style.color = "#b3261e";
+        return;
+      }
+
+      admins.push({ username: user, password: pass, role: "admin" });
+      localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
+      renderAdmins();
+
+      msg.textContent = "Admin user added successfully.";
+      msg.style.color = "#1a7f37";
+      document.getElementById("newAdminUser").value = "";
+      document.getElementById("newAdminPass").value = "";
+    }
+
+    function applyRoleVisibility() {
+      const section = document.getElementById("adminSection");
+      if (!loggedInAdmin || loggedInAdmin.role !== "main") {
+        section.style.display = "none";
+      }
+    }
+
+    window.addEventListener("load", () => {
+      loadSession();
+      loadBooks();
+      loadAdmins();
+      applyRoleVisibility();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Library - Admin Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e5e9f2;
+    }
+
+    .shell {
+      width: 760px;
+      max-width: 95%;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.15);
+      display: flex;
+      overflow: hidden;
+      border: 1px solid #d0d7e6;
+    }
+
+    /* LEFT PANEL (BRAND) */
+    .side-panel {
+      width: 38%;
+      min-width: 220px;
+      background: linear-gradient(160deg, #1f3a93, #2563eb);
+      color: #f9fafb;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .side-header {
+      margin-bottom: 16px;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(15,23,42,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .side-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .side-subtitle {
+      font-size: 12px;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    .side-highlight {
+      margin-top: 18px;
+      padding: 8px 10px;
+      background: rgba(15,23,42,0.18);
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .side-footer {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    /* RIGHT PANEL (FORM) */
+    .form-panel {
+      flex: 1;
+      padding: 24px 26px 24px;
+      background: #f9fafb;
+    }
+
+    .form-header {
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .form-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #111827;
+    }
+
+    .form-header .subtitle {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 3px;
+    }
+
+    .form-row-inline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+
+    .badge-env {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e5edff;
+      border: 1px solid #c3d0ff;
+      color: #1f3a93;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      display: block;
+      margin-top: 8px;
+      margin-bottom: 3px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 4px;
+      border: 1px solid #cbd2e1;
+      font-size: 13px;
+      outline: none;
+      background: #ffffff;
+      transition: border 0.15s ease, box-shadow 0.15s ease;
+      margin-bottom: 4px;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      background: #2563eb;
+      color: #ffffff;
+      width: 100%;
+      margin-top: 12px;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .meta-info {
+      margin-top: 10px;
+      padding: 7px 9px;
+      background: #eff6ff;
+      border-radius: 4px;
+      border: 1px solid #d1e0ff;
+      font-size: 12px;
+      color: #1f2937;
+    }
+
+    .meta-info b {
+      color: #1f3a93;
+    }
+
+    #msg {
+      font-size: 13px;
+      color: #b91c1c;
+      margin-top: 8px;
+      min-height: 18px;
+      text-align: left;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        flex-direction: column;
+        max-width: 95%;
+      }
+      .side-panel {
+        width: 100%;
+        border-bottom: 1px solid rgba(15,23,42,0.15);
+      }
+      .form-panel {
+        padding: 18px 16px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- LEFT SIDE -->
+    <div class="side-panel">
+      <div class="side-header">
+        <div class="logo-mark">📚</div>
+        <div class="side-title">Smart Library System</div>
+        <div class="side-subtitle">
+          Centralized platform to manage books, members, and circulation.
+        </div>
+        <div class="side-highlight">
+          <strong>Admin Access Only</strong><br>
+          Use your institutional admin ID and password to login. Your activity may be monitored for security.
+        </div>
+      </div>
+      <div class="side-footer">
+        © 2025 · Department Library Management Panel
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="form-panel">
+      <div class="form-header">
+        <h2>Admin Login</h2>
+        <div class="subtitle">Sign in with your registered admin credentials.</div>
+        <div class="form-row-inline">
+          <span class="small" style="font-size:11px;color:#6b7280;">
+            Only authorized staff can access this panel.
+          </span>
+          <span class="badge-env">ADMIN PORTAL</span>
+        </div>
+      </div>
+
+      <label for="adminUser">User ID</label>
+      <input type="text" id="adminUser" placeholder="e.g. admin">
+
+      <label for="adminPass">Password</label>
+      <input type="password" id="adminPass" placeholder="e.g. admin123">
+
+      <button class="btn" onclick="login()">Sign In</button>
+
+      <div class="meta-info">
+        Default Main Admin credentials for first-time setup:
+        <b>admin / admin123</b>
+      </div>
+
+      <div id="msg"></div>
+
+      <a href="index.html" class="back">&#8592; Back to Student View</a>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_KEY = "smartLibraryAdmins";
+    const SESSION_KEY = "smartLibraryLoggedAdmin";
+
+    function ensureMainAdmin() {
+      const data = localStorage.getItem(ADMIN_KEY);
+      if (!data) {
+        const defaultAdmins = [
+          { username: "admin", password: "admin123", role: "main" }
+        ];
+        localStorage.setItem(ADMIN_KEY, JSON.stringify(defaultAdmins));
+      }
+    }
+
+    function getAdmins() {
+      const data = localStorage.getItem(ADMIN_KEY);
+      if (!data) return [];
+      try { return JSON.parse(data); } catch { return []; }
+    }
+
+    function login() {
+      const user = document.getElementById("adminUser").value.trim();
+      const pass = document.getElementById("adminPass").value.trim();
+      const msg = document.getElementById("msg");
+
+      msg.textContent = "";
+
+      if (!user || !pass) {
+        msg.textContent = "Please enter both User ID and Password.";
+        return;
+      }
+
+      const admins = getAdmins();
+      const found = admins.find(a => a.username === user && a.password === pass);
+
+      if (found) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(found));
+        window.location.href = "admin.html";
+      } else {
+        msg.textContent = "Invalid Admin ID or Password.";
+      }
+    }
+
+    window.addEventListener("load", ensureMainAdmin);
+  </script>
+</body>
+</html>
