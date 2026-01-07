@@ -1,409 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Smart Library - Admin Dashboard</title>
-  <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { margin: 0; padding: 0; background: #f4f6fb; }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      background: #fff;
-      padding: 20px 25px 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    h1 { text-align: center; margin-bottom: 5px; }
-    .subtitle { text-align: center; font-size: 14px; color: #555; margin-bottom: 15px; }
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    .badge {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      background: #e8f0fe;
-      color: #1a3fb2;
-      border: 1px solid #9bb3ff;
-    }
-    .btn {
-      border: none;
-      border-radius: 5px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .btn-primary { background: #4c6fff; color: #fff; }
-    .btn-primary:hover { background: #3b57d9; }
-    .btn-danger { background: #ff4c4c; color: #fff; }
-    .btn-danger:hover { background: #e04343; }
-    .btn-secondary { background: #ffb020; color: #fff; }
-    .btn-secondary:hover { background: #e09c1c; }
-    .small { font-size: 12px; color: #555; }
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .form-group {
-      flex: 1;
-      min-width: 150px;
-      display: flex;
-      flex-direction: column;
-      font-size: 14px;
-    }
-    label { font-weight: 600; margin-bottom: 2px; }
-    input[type="text"], input[type="number"], input[type="password"] {
-      padding: 6px 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      outline: none;
-    }
-    input:focus {
-      border-color: #4c6fff;
-      box-shadow: 0 0 0 2px rgba(76,111,255,0.2);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-      font-size: 13px;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    th, td {
-      border-bottom: 1px solid #eee;
-      padding: 8px 6px;
-      text-align: left;
-    }
-    th {
-      background: #f0f3ff;
-      font-weight: 700;
-    }
-    tr:nth-child(even) { background: #fafbff; }
-    .status-available { color: #1a7f37; font-weight: 700; }
-    .status-issued { color: #b3261e; font-weight: 700; }
-    .highlight { background: #fff7d6 !important; }
-    .admin-list { margin-top: 8px; padding-left: 16px; font-size: 13px; }
-  </style>
+<meta charset="UTF-8">
+<title>Smart Library - Admin Dashboard</title>
+
+<style>
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 0; padding: 0; background: #f4f6fb; }
+
+.container {
+  max-width: 1000px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+h1 { text-align: center; margin-bottom: 5px; }
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #e8f0fe;
+  color: #1a3fb2;
+  border: 1px solid #9bb3ff;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-primary { background: #4c6fff; color: #fff; }
+.btn-primary:hover { background: #3b57d9; }
+
+.btn-danger { background: #ff4c4c; color: #fff; }
+.btn-danger:hover { background: #e04343; }
+
+.btn-secondary { background: #ffb020; color: #fff; }
+.btn-secondary:hover { background: #e09c1c; }
+
+.small { font-size: 12px; color: #555; }
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+label { font-weight: 600; margin-bottom: 2px; }
+
+input {
+  padding: 6px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  border-bottom: 1px solid #eee;
+  padding: 8px 6px;
+  text-align: left;
+}
+
+th {
+  background: #f0f3ff;
+  font-weight: 700;
+}
+
+tr:nth-child(even) { background: #fafbff; }
+
+.status-available { color: #1a7f37; font-weight: 700; }
+.status-issued { color: #b3261e; font-weight: 700; }
+
+.admin-list {
+  margin-top: 8px;
+  padding-left: 16px;
+  font-size: 13px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Smart Library - Admin Dashboard</h1>
-    <div class="subtitle">
-      Admin can Add / Edit / Delete / Issue / Return books.<br>
-      Only Main Admin can create additional admin users.
-    </div>
+<div class="container">
 
-    <div class="top-bar">
-      <span id="roleBadge" class="badge"></span>
-      <div>
-        <button class="btn btn-primary" onclick="goToStudent()">Student View</button>
-        <button class="btn btn-danger" onclick="logout()">Logout</button>
-      </div>
-    </div>
+<h1>Smart Library - Admin Dashboard</h1>
+<div class="subtitle">
+Admin can Add / Issue / Return / Delete books.<br>
+Only Main Admin can add more admin users.
+</div>
 
-    <!-- BOOK MANAGEMENT -->
-    <h3>Book Details (Add / Edit)</h3>
-    <div class="small">Use this form to add new books.</div>
+<div class="top-bar">
+<span id="roleBadge" class="badge"></span>
+<div>
+<button class="btn btn-primary" onclick="goStudent()">Student View</button>
+<button class="btn btn-danger" onclick="logout()">Logout</button>
+</div>
+</div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="bookId">Book ID</label>
-        <input type="number" id="bookId" placeholder="e.g. 101">
-      </div>
-      <div class="form-group">
-        <label for="bookTitle">Title</label>
-        <input type="text" id="bookTitle" placeholder="Book title">
-      </div>
-      <div class="form-group">
-        <label for="bookAuthor">Author</label>
-        <input type="text" id="bookAuthor" placeholder="Author name">
-      </div>
-      <div class="form-group">
-        <label for="bookYear">Year</label>
-        <input type="number" id="bookYear" placeholder="e.g. 2024">
-      </div>
-    </div>
-    <button class="btn btn-primary" id="addBtn" onclick="addOrUpdateBook()">Add Book</button>
-    <span id="editInfo" class="small" style="margin-left:8px;color:#b3261e;"></span>
+<!-- ================= BOOK MANAGEMENT ================= -->
 
-    <h3>Books List</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th><th>Title</th><th>Author</th><th>Year</th>
-          <th>Status</th><th>Student</th><th>USN</th><th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="booksBody"></tbody>
-    </table>
+<h3>Add New Book</h3>
+<div class="form-row">
+<div class="form-group">
+<label>Book ID</label>
+<input id="bookId">
+</div>
+<div class="form-group">
+<label>Title</label>
+<input id="bookTitle">
+</div>
+<div class="form-group">
+<label>Author</label>
+<input id="bookAuthor">
+</div>
+<div class="form-group">
+<label>Year</label>
+<input id="bookYear">
+</div>
+</div>
 
-    <!-- MAIN ADMIN SECTION -->
-    <div id="adminSection">
-      <hr style="margin:25px 0 15px;">
-      <h3>Main Admin – Manage Admin Users</h3>
-      <div class="small">
-        Only the Main Admin can add more admin users. Normal admins can't see this section.
-      </div>
+<button class="btn btn-primary" onclick="addBook()">Add Book</button>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="newAdminUser">New Admin User ID</label>
-          <input type="text" id="newAdminUser" placeholder="e.g. librarian01">
-        </div>
-        <div class="form-group">
-          <label for="newAdminPass">New Admin Password</label>
-          <input type="password" id="newAdminPass" placeholder="Set a password">
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="addAdminUser()">Add Admin User</button>
-      <div id="adminMsg" class="small" style="margin-top:6px;"></div>
+<h3>Books List</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th><th>Title</th><th>Author</th><th>Year</th>
+<th>Status</th><th>Student</th><th>USN</th><th>Actions</th>
+</tr>
+</thead>
+<tbody id="booksBody"></tbody>
+</table>
 
-      <div class="small" style="margin-top:10px;"><b>Existing Admins:</b></div>
-      <ul id="adminList" class="admin-list"></ul>
-    </div>
-  </div>
+<!-- ================= MAIN ADMIN SECTION ================= -->
 
-  <script>
-    const BOOK_KEY = "smartLibraryBooks";
-    const ADMIN_KEY = "smartLibraryAdmins";
-    const SESSION_KEY = "smartLibraryLoggedAdmin";
+<div id="adminSection">
+<hr style="margin:25px 0 15px;">
 
-    let books = [];
-    let admins = [];
-    let loggedInAdmin = null;
-    let editIndex = -1;
+<h3>Main Admin – Manage Admin Users</h3>
+<div class="small">
+Only Main Admin can add additional admin users.
+</div>
 
-    function goToStudent() {
-      window.location.href = "index.html";
-    }
+<div class="form-row">
+<div class="form-group">
+<label>New Admin User ID</label>
+<input id="newAdminUser" placeholder="e.g. librarian01">
+</div>
+<div class="form-group">
+<label>New Admin Password</label>
+<input id="newAdminPass" type="password">
+</div>
+</div>
 
-    function logout() {
-      localStorage.removeItem(SESSION_KEY);
-      window.location.href = "admin-login.html";
-    }
+<button class="btn btn-primary" onclick="addAdminUser()">Add Admin User</button>
+<div id="adminMsg" class="small"></div>
 
-    function loadSession() {
-      const data = localStorage.getItem(SESSION_KEY);
-      if (!data) {
-        alert("Please login as admin first.");
-        window.location.href = "admin-login.html";
-        return;
-      }
-      loggedInAdmin = JSON.parse(data);
-      const badge = document.getElementById("roleBadge");
-      if (loggedInAdmin.role === "main") {
-        badge.textContent = "MAIN ADMIN";
-      } else {
-        badge.textContent = "ADMIN";
-      }
-    }
+<div class="small" style="margin-top:10px;"><b>Existing Admins:</b></div>
+<ul id="adminList" class="admin-list"></ul>
+</div>
 
-    function loadBooks() {
-      const data = localStorage.getItem(BOOK_KEY);
-      if (data) {
-        try { books = JSON.parse(data); } catch { books = []; }
-      }
-      renderBooks();
-    }
+</div>
 
-    function saveBooks() {
-      localStorage.setItem(BOOK_KEY, JSON.stringify(books));
-    }
+<!-- ================= SCRIPT ================= -->
+<script type="module">
+import { db } from "./firebase.js";
+import {
+  collection, addDoc, getDocs,
+  updateDoc, deleteDoc, doc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    function renderBooks() {
-      const tbody = document.getElementById("booksBody");
-      tbody.innerHTML = "";
-      books.forEach((b, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${b.id}</td>
-          <td>${b.title}</td>
-          <td>${b.author}</td>
-          <td>${b.year}</td>
-          <td>
-            <span class="${b.isIssued ? "status-issued" : "status-available"}">
-              ${b.isIssued ? "Issued" : "Available"}
-            </span>
-          </td>
-          <td>${b.studentName || "-"}</td>
-          <td>${b.studentUsn || "-"}</td>
-          <td>
-            <button class="btn btn-secondary" onclick="issueBook(${i})">Issue</button>
-            <button class="btn" onclick="returnBook(${i})">Return</button>
-            <button class="btn btn-danger" onclick="deleteBook(${i})">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+/* ---------- SESSION ---------- */
+const SESSION_KEY = "smartLibraryLoggedAdmin";
+const ADMIN_KEY = "smartLibraryAdmins";
+let loggedInAdmin = null;
 
-    function clearForm() {
-      document.getElementById("bookId").value = "";
-      document.getElementById("bookTitle").value = "";
-      document.getElementById("bookAuthor").value = "";
-      document.getElementById("bookYear").value = "";
-      editIndex = -1;
-      document.getElementById("addBtn").textContent = "Add Book";
-      document.getElementById("editInfo").textContent = "";
-    }
+function loadSession() {
+  const data = localStorage.getItem(SESSION_KEY);
+  if (!data) {
+    alert("Please login first.");
+    location.href = "admin-login.html";
+    return;
+  }
+  loggedInAdmin = JSON.parse(data);
+  roleBadge.textContent =
+    loggedInAdmin.role === "main" ? "MAIN ADMIN" : "ADMIN";
 
-    function addOrUpdateBook() {
-      const id = parseInt(document.getElementById("bookId").value);
-      const title = document.getElementById("bookTitle").value.trim();
-      const author = document.getElementById("bookAuthor").value.trim();
-      const year = parseInt(document.getElementById("bookYear").value);
+  if (loggedInAdmin.role !== "main") {
+    document.getElementById("adminSection").style.display = "none";
+  }
+}
 
-      if (!id || !title || !author || !year) {
-        alert("Please fill all fields.");
-        return;
-      }
+/* ---------- BOOKS (FIREBASE) ---------- */
+let books = [];
 
-      const existingIndex = books.findIndex(b => b.id === id);
-      if (existingIndex !== -1 && existingIndex !== editIndex) {
-        alert("Book ID already exists.");
-        return;
-      }
+async function loadBooks() {
+  books = [];
+  const snap = await getDocs(collection(db, "books"));
+  snap.forEach(d => books.push({ docId: d.id, ...d.data() }));
+  renderBooks();
+}
 
-      if (editIndex === -1) {
-        books.push({
-          id, title, author, year,
-          isIssued: false,
-          studentName: "",
-          studentUsn: ""
-        });
-      } else {
-        books[editIndex].id = id;
-        books[editIndex].title = title;
-        books[editIndex].author = author;
-        books[editIndex].year = year;
-      }
+function renderBooks() {
+  booksBody.innerHTML = "";
+  books.forEach((b, i) => {
+    booksBody.innerHTML += `
+    <tr>
+      <td>${b.id}</td>
+      <td>${b.title}</td>
+      <td>${b.author}</td>
+      <td>${b.year}</td>
+      <td class="${b.isIssued ? "status-issued" : "status-available"}">
+        ${b.isIssued ? "Issued" : "Available"}
+      </td>
+      <td>${b.studentName || "-"}</td>
+      <td>${b.studentUsn || "-"}</td>
+      <td>
+        <button class="btn btn-secondary" onclick="issue(${i})">Issue</button>
+        <button class="btn btn-primary" onclick="ret(${i})">Return</button>
+        <button class="btn btn-danger" onclick="del(${i})">Delete</button>
+      </td>
+    </tr>`;
+  });
+}
 
-      saveBooks();
-      renderBooks();
-      clearForm();
-    }
+window.addBook = async () => {
+  await addDoc(collection(db, "books"), {
+    id: bookId.value,
+    title: bookTitle.value,
+    author: bookAuthor.value,
+    year: bookYear.value,
+    isIssued: false,
+    studentName: "",
+    studentUsn: ""
+  });
+  loadBooks();
+};
 
-    function issueBook(i) {
-      const b = books[i];
-      if (b.isIssued) {
-        alert("Already issued to " + b.studentName + " (" + b.studentUsn + ")");
-        return;
-      }
-      const name = prompt("Enter Student Name:");
-      if (!name) return;
-      const usn = prompt("Enter Student USN:");
-      if (!usn) return;
+window.issue = async i => {
+  const n = prompt("Student Name:");
+  const u = prompt("Student USN:");
+  if (!n || !u) return;
+  await updateDoc(doc(db, "books", books[i].docId), {
+    isIssued: true, studentName: n, studentUsn: u
+  });
+  loadBooks();
+};
 
-      b.isIssued = true;
-      b.studentName = name.trim();
-      b.studentUsn = usn.trim();
+window.ret = async i => {
+  await updateDoc(doc(db, "books", books[i].docId), {
+    isIssued: false, studentName: "", studentUsn: ""
+  });
+  loadBooks();
+};
 
-      saveBooks();
-      renderBooks();
-    }
+window.del = async i => {
+  if (confirm("Delete this book?")) {
+    await deleteDoc(doc(db, "books", books[i].docId));
+    loadBooks();
+  }
+};
 
-    function returnBook(i) {
-      const b = books[i];
-      if (!b.isIssued) {
-        alert("This book is not issued.");
-        return;
-      }
-      if (!confirm("Confirm return?")) return;
+/* ---------- ADMIN USERS (LOCAL STORAGE) ---------- */
+let admins = [];
 
-      b.isIssued = false;
-      b.studentName = "";
-      b.studentUsn = "";
+function loadAdmins() {
+  const data = localStorage.getItem(ADMIN_KEY);
+  if (!data) {
+    admins = [{ username: "admin", password: "admin123", role: "main" }];
+    localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
+  } else {
+    admins = JSON.parse(data);
+  }
+  renderAdmins();
+}
 
-      saveBooks();
-      renderBooks();
-    }
+function renderAdmins() {
+  adminList.innerHTML = "";
+  admins.forEach(a => {
+    const li = document.createElement("li");
+    li.textContent = `${a.username} (${a.role})`;
+    adminList.appendChild(li);
+  });
+}
 
-    function deleteBook(i) {
-      if (!confirm("Delete this book?")) return;
-      books.splice(i, 1);
-      saveBooks();
-      renderBooks();
-    }
+window.addAdminUser = () => {
+  const user = newAdminUser.value.trim();
+  const pass = newAdminPass.value.trim();
+  adminMsg.textContent = "";
 
-    // ---------- ADMIN USERS (MAIN ONLY) ----------
+  if (!user || !pass) {
+    adminMsg.textContent = "User ID and Password required.";
+    return;
+  }
 
-    function loadAdmins() {
-      const data = localStorage.getItem(ADMIN_KEY);
-      if (data) {
-        try { admins = JSON.parse(data); } catch { admins = []; }
-      } else {
-        admins = [{ username:"admin", password:"admin123", role:"main" }];
-        localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
-      }
-      renderAdmins();
-    }
+  if (admins.some(a => a.username === user)) {
+    adminMsg.textContent = "Admin already exists.";
+    return;
+  }
 
-    function renderAdmins() {
-      const ul = document.getElementById("adminList");
-      ul.innerHTML = "";
-      admins.forEach(a => {
-        const li = document.createElement("li");
-        li.textContent = `${a.username} (${a.role})`;
-        ul.appendChild(li);
-      });
-    }
+  admins.push({ username: user, password: pass, role: "admin" });
+  localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
+  renderAdmins();
 
-    function addAdminUser() {
-      if (!loggedInAdmin || loggedInAdmin.role !== "main") {
-        alert("Only Main Admin can add users.");
-        return;
-      }
-      const user = document.getElementById("newAdminUser").value.trim();
-      const pass = document.getElementById("newAdminPass").value.trim();
-      const msg = document.getElementById("adminMsg");
+  adminMsg.textContent = "Admin added successfully.";
+  newAdminUser.value = "";
+  newAdminPass.value = "";
+};
 
-      if (!user || !pass) {
-        msg.textContent = "User ID and Password required.";
-        msg.style.color = "#b3261e";
-        return;
-      }
+/* ---------- NAV ---------- */
+window.goStudent = () => location.href = "index.html";
+window.logout = () => {
+  localStorage.removeItem(SESSION_KEY);
+  location.href = "admin-login.html";
+};
 
-      if (admins.some(a => a.username === user)) {
-        msg.textContent = "This admin already exists.";
-        msg.style.color = "#b3261e";
-        return;
-      }
+/* ---------- INIT ---------- */
+loadSession();
+loadBooks();
+loadAdmins();
+</script>
 
-      admins.push({ username: user, password: pass, role: "admin" });
-      localStorage.setItem(ADMIN_KEY, JSON.stringify(admins));
-      renderAdmins();
-
-      msg.textContent = "Admin user added successfully.";
-      msg.style.color = "#1a7f37";
-      document.getElementById("newAdminUser").value = "";
-      document.getElementById("newAdminPass").value = "";
-    }
-
-    function applyRoleVisibility() {
-      const section = document.getElementById("adminSection");
-      if (!loggedInAdmin || loggedInAdmin.role !== "main") {
-        section.style.display = "none";
-      }
-    }
-
-    window.addEventListener("load", () => {
-      loadSession();
-      loadBooks();
-      loadAdmins();
-      applyRoleVisibility();
-    });
-  </script>
 </body>
 </html>

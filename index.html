@@ -1,348 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Smart Library – Student View</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
+<meta charset="UTF-8">
+<title>Smart Library | Student Portal</title>
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f1f4f9;
-    }
+<style>
+* { box-sizing: border-box; font-family: "Segoe UI", Arial, sans-serif; }
 
-    /* PAGE WRAPPER */
-    .page {
-      max-width: 1000px;
-      margin: 28px auto;
-      padding: 0 14px;
-    }
+body {
+  margin: 0;
+  background: linear-gradient(120deg, #e0e7ff, #f8fafc);
+  min-height: 100vh;
+}
 
-    /* HEADER */
-    .header {
-      background: #1f3a8a;
-      color: #ffffff;
-      padding: 14px 22px;
-      border-radius: 6px 6px 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 14px 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .header-title {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
+/* LEFT HEADER (LOGO + TITLE) */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-    .header-title h1 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-    }
+.header-left img {
+  width: 42px;        /* SMALL SIZE */
+  height: auto;
+}
 
-    .header-title span {
-      font-size: 12px;
-      opacity: 0.9;
-    }
+.header-left h1 {
+  margin: 0;
+  font-size: 22px;
+}
 
-    .header-actions button {
-      padding: 7px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 4px;
-      border: 1px solid #dbe2ff;
-      background: #ffffff;
-      color: #1f3a8a;
-      cursor: pointer;
-    }
+.header-left span {
+  font-size: 12px;
+  opacity: 0.9;
+}
 
-    .header-actions button:hover {
-      background: #eef2ff;
-    }
+/* HEADER BUTTON */
+.header button {
+  background: white;
+  color: #1e3a8a;
+  border: none;
+  padding: 8px 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-    /* CONTENT */
-    .content {
-      background: #ffffff;
-      border: 1px solid #d1d5e0;
-      border-top: none;
-      border-radius: 0 0 6px 6px;
-      padding: 18px 22px 22px;
-    }
+.header button:hover {
+  background: #eef2ff;
+}
 
-    .notice {
-      padding: 10px 14px;
-      background: #eef2ff;
-      border: 1px solid #c7d2fe;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #1e3a8a;
-      margin-bottom: 16px;
-    }
+/* MAIN */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
 
-    /* SEARCH */
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+  padding: 22px 24px 26px;
+}
 
-    .search-bar label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1f2937;
-    }
+.notice {
+  background: #eef2ff;
+  border-left: 5px solid #2563eb;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #1e3a8a;
+  margin-bottom: 18px;
+  border-radius: 6px;
+}
 
-    input[type="number"] {
-      padding: 7px 9px;
-      font-size: 13px;
-      border-radius: 4px;
-      border: 1px solid #cbd2e1;
-      outline: none;
-      min-width: 150px;
-    }
+/* SEARCH BAR */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
 
-    input[type="number"]:focus {
-      border-color: #1f3a8a;
-      box-shadow: 0 0 0 2px rgba(31,58,138,0.15);
-    }
+.search-bar label {
+  font-size: 14px;
+  font-weight: 600;
+}
 
-    .btn-search {
-      padding: 7px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      border-radius: 4px;
-      border: 1px solid #1f3a8a;
-      background: #1f3a8a;
-      color: #ffffff;
-      cursor: pointer;
-    }
+.search-bar input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #c7d2fe;
+  min-width: 160px;
+}
 
-    .btn-search:hover {
-      background: #172554;
-    }
+.search-bar button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-    .small {
-      font-size: 12px;
-      color: #4b5563;
-    }
+.search-bar button:hover {
+  background: #1e40af;
+}
 
-    #searchMessage {
-      min-height: 16px;
-    }
+#msg {
+  font-size: 13px;
+  color: #1f2937;
+}
 
-    /* TABLE */
-    h3 {
-      margin-top: 16px;
-      margin-bottom: 6px;
-      font-size: 15px;
-      color: #1f2937;
-    }
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      background: #ffffff;
-      border: 1px solid #d1d5e0;
-    }
+th {
+  background: #f1f5ff;
+  padding: 10px;
+  text-align: left;
+  color: #1e3a8a;
+}
 
-    th, td {
-      padding: 8px 7px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-    }
+td {
+  padding: 9px;
+  border-bottom: 1px solid #e5e7eb;
+}
 
-    th {
-      background: #f3f4f6;
-      font-weight: 600;
-      color: #1f2937;
-    }
+tr:hover {
+  background: #f8fafc;
+}
 
-    tr:nth-child(even) {
-      background: #f9fafb;
-    }
+.status-available {
+  background: #dcfce7;
+  color: #166534;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
 
-    tr:hover {
-      background: #eef2ff;
-    }
+.status-issued {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
 
-    .status-available {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #e6f4ea;
-      color: #166534;
-      border: 1px solid #9fd7b1;
-      display: inline-block;
-    }
+.highlight {
+  background: #fff7d6 !important;
+}
 
-    .status-issued {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #fee2e2;
-      color: #b91c1c;
-      border: 1px solid #fca5a5;
-      display: inline-block;
-    }
-
-    .highlight {
-      background: #fff7d6 !important;
-    }
-
-    /* FOOTER */
-    .footer {
-      margin-top: 12px;
-      text-align: center;
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    @media (max-width: 640px) {
-      .content {
-        padding: 14px;
-      }
-      table {
-        font-size: 12px;
-      }
-      th, td {
-        padding: 6px 5px;
-      }
-    }
-  </style>
+/* FOOTER */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 18px;
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <!-- HEADER -->
-    <div class="header">
-      <div class="header-title">
-        <h1>Smart Library Management System</h1>
-        <span>Student Portal – Read-only Access</span>
-      </div>
-      <div class="header-actions">
-        <button onclick="goToAdminLogin()">Admin Login</button>
-      </div>
-    </div>
 
-    <!-- CONTENT -->
-    <div class="content">
-      <div class="notice">
-        This page allows students to view and search library books.  
-        Editing, issuing, or returning books is restricted to authorised library staff.
-      </div>
-
-      <div class="search-bar">
-        <label for="searchId">Search by Book ID:</label>
-        <input type="number" id="searchId" placeholder="Enter Book ID">
-        <button class="btn-search" onclick="searchBook()">Search</button>
-        <span id="searchMessage" class="small"></span>
-      </div>
-
-      <h3>Available Books</h3>
-      <div class="small">
-        Book information is synchronised with the Admin Dashboard using browser storage.
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Status</th>
-            <th>Student</th>
-            <th>USN</th>
-          </tr>
-        </thead>
-        <tbody id="booksBody"></tbody>
-      </table>
-
-      <div class="footer">
-        © 2025 Smart Library Management System · For academic use only by NK team
-      </div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <!-- NIE LOGO -->
+    <img src="nie-logo.png" alt="NIE Logo">
+    <div>
+      <h1>Smart Library</h1>
+      <span>Student Portal</span>
     </div>
   </div>
 
-  <script>
-    const BOOK_KEY = "smartLibraryBooks";
-    let books = [];
+  <button onclick="location.href='admin-login.html'">Admin Login</button>
+</div>
 
-    function goToAdminLogin() {
-      window.location.href = "admin-login.html";
+<!-- MAIN -->
+<div class="container">
+<div class="card">
+
+  <div class="notice">
+    Students can search books by <b>Book ID</b> or <b>Title</b>.
+    Issuing and returning books are restricted to administrators.
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <label>Search:</label>
+    <input type="number" id="searchId" placeholder="Book ID">
+    <input type="text" id="searchTitle" placeholder="Book Title">
+    <button onclick="searchBook()">Search</button>
+    <span id="msg"></span>
+  </div>
+
+  <!-- TABLE -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th>Status</th>
+        <th>Student</th>
+        <th>USN</th>
+      </tr>
+    </thead>
+    <tbody id="booksBody"></tbody>
+  </table>
+
+  <div class="footer">
+    © 2025 Smart Library Management System. Designed & Developed by NK.
+  </div>
+
+</div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { db } from "./firebase.js";
+import { collection, getDocs }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+let books = [];
+
+async function loadBooks() {
+  books = [];
+  const snap = await getDocs(collection(db, "books"));
+  snap.forEach(d => books.push(d.data()));
+  renderBooks();
+}
+
+function renderBooks() {
+  const body = document.getElementById("booksBody");
+  body.innerHTML = "";
+  books.forEach(b => {
+    body.innerHTML += `
+      <tr>
+        <td>${b.id}</td>
+        <td>${b.title}</td>
+        <td>${b.author}</td>
+        <td>${b.year}</td>
+        <td>
+          <span class="${b.isIssued ? "status-issued" : "status-available"}">
+            ${b.isIssued ? "Issued" : "Available"}
+          </span>
+        </td>
+        <td>${b.studentName || "-"}</td>
+        <td>${b.studentUsn || "-"}</td>
+      </tr>
+    `;
+  });
+}
+
+window.searchBook = () => {
+  const id = searchId.value.trim();
+  const title = searchTitle.value.trim().toLowerCase();
+  const msg = document.getElementById("msg");
+
+  document.querySelectorAll("#booksBody tr")
+    .forEach(r => r.classList.remove("highlight"));
+
+  let found = false;
+
+  books.forEach((b, i) => {
+    if ((id && b.id == id) || (title && b.title.toLowerCase().includes(title))) {
+      document.querySelectorAll("#booksBody tr")[i]
+        .classList.add("highlight");
+      found = true;
     }
+  });
 
-    function loadBooks() {
-      const data = localStorage.getItem(BOOK_KEY);
-      if (data) {
-        try { books = JSON.parse(data); } catch { books = []; }
-      }
-      renderBooks();
-    }
+  msg.textContent = found
+    ? "Matching book(s) highlighted below."
+    : "No matching book found.";
+};
 
-    function renderBooks() {
-      const tbody = document.getElementById("booksBody");
-      tbody.innerHTML = "";
-      books.forEach(b => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${b.id}</td>
-          <td>${b.title}</td>
-          <td>${b.author}</td>
-          <td>${b.year}</td>
-          <td>
-            <span class="${b.isIssued ? "status-issued" : "status-available"}">
-              ${b.isIssued ? "Issued" : "Available"}
-            </span>
-          </td>
-          <td>${b.studentName || "-"}</td>
-          <td>${b.studentUsn || "-"}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+loadBooks();
+</script>
 
-    function clearSearchHighlight() {
-      document.querySelectorAll("#booksBody tr")
-        .forEach(row => row.classList.remove("highlight"));
-      document.getElementById("searchMessage").textContent = "";
-    }
-
-    function searchBook() {
-      clearSearchHighlight();
-      const id = parseInt(document.getElementById("searchId").value);
-      const msgEl = document.getElementById("searchMessage");
-
-      if (!id) {
-        msgEl.textContent = "Please enter a valid Book ID.";
-        return;
-      }
-
-      const index = books.findIndex(b => b.id == id);
-      if (index === -1) {
-        msgEl.textContent = "No book found with ID " + id + ".";
-        return;
-      }
-
-      const rows = document.querySelectorAll("#booksBody tr");
-      if (rows[index]) {
-        rows[index].classList.add("highlight");
-        msgEl.textContent = "Book found and highlighted in the table.";
-      }
-    }
-
-    window.addEventListener("load", loadBooks);
-  </script>
 </body>
 </html>
