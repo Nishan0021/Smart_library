@@ -7,7 +7,7 @@ It allows administrators to manage books and students to view book availability 
 
 ## 🌐 Live Demo
 🚀 **Access the application here:**  
-https://69356d843ed01930ebb5996c--radiant-pony-cf0b55.netlify.app/
+https://smartlibrarynie.netlify.app/
 
 The project is deployed using **Netlify** and can be accessed from any device with an internet connection.
 
