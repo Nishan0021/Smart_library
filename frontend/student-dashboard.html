@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard | Smart Library</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+    }
+
+    header {
+      background: linear-gradient(90deg, #003366, #0055aa);
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    header button {
+      background: #ff4d4d;
+      border: none;
+      padding: 8px 14px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    header button:hover {
+      background: #e60000;
+    }
+
+    .container {
+      padding: 30px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #003366;
+      color: white;
+      padding: 12px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .returned {
+      color: green;
+      font-weight: bold;
+    }
+
+    .not-returned {
+      color: red;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      color: #666;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>📚 Smart Library – Student Portal</h2>
+    <button onclick="logout()">Logout</button>
+  </header>
+
+  <div class="container">
+    <div class="welcome">
+      <h3 id="studentName">Welcome, Student</h3>
+      <p>Below is the list of books issued to you.</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Book Title</th>
+          <th>Issue Date</th>
+          <th>Status</th>
+          <th>Fine (₹)</th>
+
+        </tr>
+      </thead>
+      <tbody id="studentTable">
+        <!-- Data will load here -->
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    © College Library | Official Student Dashboard
+  </footer>
+
+  <script src="student-dashboard.js"></script>
+</body>
+</html>

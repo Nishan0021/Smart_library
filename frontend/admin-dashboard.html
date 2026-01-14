@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard | Smart Library</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f9;
+    }
+
+    header {
+      background: linear-gradient(90deg, #002147, #004e92);
+      color: white;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    header span {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    header button {
+      background: #ff4d4d;
+      border: none;
+      padding: 8px 16px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    header button:hover {
+      background: #e60000;
+    }
+
+    .container {
+      padding: 30px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #003366;
+      font-size: 18px;
+    }
+
+    .card p {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card button {
+      background: #003366;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .card button:hover {
+      background: #0055aa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      color: #666;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h2>🏫 Smart Library</h2>
+      <span>Admin Control Panel</span>
+    </div>
+    <button onclick="logout()">Logout</button>
+  </header>
+
+  <div class="container">
+
+    <div class="welcome">
+      <h3>Welcome, Admin</h3>
+      <p>Use the dashboard below to manage library operations.</p>
+    </div>
+
+    <div class="cards">
+       
+      <div class="card">
+        <h3>📚 Books</h3>
+        <p>View all books and availability</p>
+        <button onclick="goTo('index.html')">View Books</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Issued Books</h3>
+        <p>Check issued & returned books</p>
+        <button onclick="goTo('issued.html')">Issued List</button>
+      </div>
+
+      <div class="card">
+        <h3>🔄 Return Books</h3>
+        <p>Return issued books</p>
+        <button onclick="goTo('issued.html')">Return Books</button>
+      </div>
+
+      <div class="card">
+        <h3>👨‍🎓 Students</h3>
+        <p>Approved student USNs</p>
+        <button disabled>Coming Soon</button>
+      </div>
+       
+       <!-- COUNTER CARDS -->
+  <div class="card">
+    <h3>📚 Total Books</h3>
+    <h1 id="totalBooks">0</h1>
+  </div>
+
+  <div class="card">
+    <h3>📕 Issued Books</h3>
+    <h1 id="issuedBooks">0</h1>
+  </div>
+
+  <div class="card">
+    <h3>📗 Available Books</h3>
+    <h1 id="availableBooks">0</h1>
+  </div>
+
+  <!-- MANAGEMENT CARDS -->
+    </div>
+  </div>
+
+  <footer>
+    © College Library | Admin Dashboard
+  </footer>
+
+  <script>
+    function goTo(page) {
+      window.location.href = page;
+    }
+
+    function logout() {
+  localStorage.removeItem("admin_logged_in");
+  window.location.href = "admin-login.html";
+}
+
+  </script>
+ <script>
+  fetch("http://localhost:3000/books/counts")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("totalBooks").textContent = data.total_books;
+      document.getElementById("issuedBooks").textContent = data.issued_books;
+      document.getElementById("availableBooks").textContent = data.available_books;
+    })
+    .catch(err => console.error("Count load error:", err));
+</script>
+
+<script>
+  if (localStorage.getItem("admin_logged_in") !== "true") {
+    alert("Unauthorized access. Please login as admin.");
+    window.location.href = "admin-login.html";
+  }
+</script>
+
+</body>
+</html>
