@@ -16,7 +16,7 @@ router.post("/login", (req, res) => {
 
   db.query(sql, [usn], (err, results) => {
     if (err) {
-      console.error(err);
+      console.error("❌ LOGIN DB ERROR:", err.message);
       return res.status(500).json({ message: "Database error" });
     }
 
@@ -24,18 +24,26 @@ router.post("/login", (req, res) => {
       return res.status(401).json({ message: "Invalid USN" });
     }
 
-    res.json({
+    return res.json({
       success: true,
       usn: results[0].usn,
-      student_name: results[0].student_name
+      student_name: results[0].student_name,
     });
   });
 });
+
+/* =========================
+   STUDENT ISSUED BOOKS
+   ========================= */
 router.get("/issued/:usn", (req, res) => {
   const usn = req.params.usn;
 
   const sql = `
-    SELECT b.title, i.issue_date, i.return_date, i.fine_amount
+    SELECT 
+      b.title,
+      i.issue_date,
+      i.return_date,
+      i.fine_amount
     FROM issued_books i
     JOIN books b ON i.book_id = b.book_id
     WHERE i.student_usn = ?
@@ -43,10 +51,11 @@ router.get("/issued/:usn", (req, res) => {
 
   db.query(sql, [usn], (err, results) => {
     if (err) {
-  console.error(err);
-  return res.status(500).json({ message: "Database error" });
-}
-    res.json(results);
+      console.error("❌ ISSUED DB ERROR:", err.message);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    return res.json(results);
   });
 });
 
