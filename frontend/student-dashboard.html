@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Student Dashboard | Smart Library</title>
+
   <style>
     body {
       margin: 0;
@@ -70,16 +71,6 @@
       border-bottom: 1px solid #ddd;
     }
 
-    .returned {
-      color: green;
-      font-weight: bold;
-    }
-
-    .not-returned {
-      color: red;
-      font-weight: bold;
-    }
-
     footer {
       text-align: center;
       padding: 15px;
@@ -88,12 +79,21 @@
       font-size: 13px;
     }
   </style>
+
+  <!-- 🔐 PROTECT PAGE -->
+  <script>
+    if (localStorage.getItem("studentLoggedIn") !== "true") {
+      alert("Please login first");
+      window.location.href = "student-login.html";
+    }
+  </script>
 </head>
+
 <body>
 
   <header>
     <h2>📚 Smart Library – Student Portal</h2>
-    <button onclick="logout()">Logout</button>
+    <button onclick="logoutStudent()">Logout</button>
   </header>
 
   <div class="container">
@@ -107,13 +107,12 @@
         <tr>
           <th>Book Title</th>
           <th>Issue Date</th>
-          <th>Status</th>
+          <th>Return Status</th>
           <th>Fine (₹)</th>
-
         </tr>
       </thead>
       <tbody id="studentTable">
-        <!-- Data will load here -->
+        <!-- Data loads here -->
       </tbody>
     </table>
   </div>
@@ -122,6 +121,50 @@
     © College Library | Official Student Dashboard
   </footer>
 
-  <script src="student-dashboard.js"></script>
+  <!-- ✅ MAIN SCRIPT -->
+  <script>
+    const BASE_URL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://smart-library-k8bd.onrender.com";
+
+    const usn = localStorage.getItem("studentUSN");
+    const name = localStorage.getItem("studentName");
+
+    document.getElementById("studentName").innerText = `Welcome, ${name}`;
+
+    fetch(`${BASE_URL}/student/issued/${usn}`)
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById("studentTable");
+        tbody.innerHTML = "";
+
+        if (!data || data.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='4'>No books issued</td></tr>";
+          return;
+        }
+
+        data.forEach(b => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${b.title}</td>
+              <td>${b.issue_date}</td>
+              <td>${b.return_date ? "Returned" : "Not Returned"}</td>
+              <td>₹${b.fine_amount}</td>
+            </tr>
+          `;
+        });
+      })
+      .catch(() => {
+        document.getElementById("studentTable").innerHTML =
+          "<tr><td colspan='4'>Error loading data</td></tr>";
+      });
+
+    function logoutStudent() {
+      localStorage.clear();
+      window.location.href = "student-login.html";
+    }
+  </script>
+
 </body>
 </html>
