@@ -1,57 +1,41 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
 /* =======================
-   ✅ CORS CONFIG (FIXED)
+   CORS
    ======================= */
 app.use(
   cors({
-    origin: "*", // allow Netlify, Render, localhost
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
 );
 
-/* =======================
-   ✅ BODY PARSER
-   ======================= */
 app.use(express.json());
 
 /* =======================
-   ✅ DATABASE
+   ROUTES
    ======================= */
-const db = require("./db");
+app.use("/student", require("./routes/student"));
+app.use("/admin", require("./routes/admin"));
+app.use("/books", require("./routes/books"));
+app.use("/issue", require("./routes/issue"));
 
 /* =======================
-   ✅ ROUTES
-   ======================= */
-const booksRoutes = require("./routes/books");
-const issueRoutes = require("./routes/issue");
-const adminRoutes = require("./routes/admin");
-const studentRoutes = require("./routes/student");
-
-/* =======================
-   ✅ USE ROUTES
-   ======================= */
-app.use("/books", booksRoutes);
-app.use("/issue", issueRoutes);
-app.use("/admin", adminRoutes);
-app.use("/student", studentRoutes);
-
-/* =======================
-   ✅ TEST ROUTE
+   TEST ROUTE
    ======================= */
 app.get("/", (req, res) => {
   res.send("✅ Smart Library Backend Running");
 });
 
 /* =======================
-   ✅ START SERVER
+   START SERVER
    ======================= */
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
