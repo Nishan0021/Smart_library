@@ -1,19 +1,17 @@
 const express = require("express");
-const cors = require("cors");
-const app = express();
+const cors = require("cors");   // ✅ 1. REQUIRE CORS
+const app = express();          // ✅ 2. CREATE APP
 
-/* =======================
-   CORS CONFIG (IMPORTANT)
-   ======================= */
+// ✅ 3. ADD CORS HERE (RIGHT AFTER app)
 app.use(
   cors({
-    origin: "*",            // allow all origins (Netlify, localhost, etc.)
+    origin: "*", // allow Netlify + localhost
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"]
+    credentials: true
   })
 );
 
-// Middleware
+// ✅ 4. OTHER MIDDLEWARE
 app.use(express.json());
 
 // Database
@@ -34,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("✅ Smart Library Backend Running");
 });
 
-// Server start
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
