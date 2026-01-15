@@ -1,26 +1,41 @@
 function studentLogin() {
   const usn = document.getElementById("usn").value.trim();
+  const errorDiv = document.getElementById("error");
+
+  errorDiv.textContent = "";
 
   if (!usn) {
-    alert("Please enter USN");
+    errorDiv.textContent = "Please enter USN";
     return;
   }
 
-  fetch("https://smart-library-k8bd.onrender.com/student/login", {
+  // AUTO ENV (localhost / render)
+  const BASE_URL =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3000"
+      : "https://smart-library-k8bd.onrender.com";
+
+  fetch(`${BASE_URL}/student/login`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({ usn })
   })
-    .then(res => {
-      if (!res.ok) throw new Error();
-      return res.json();
+    .then(async (res) => {
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      return data;
     })
-    .then(data => {
-      localStorage.setItem("student_usn", data.usn);
-      localStorage.setItem("student_name", data.student_name);
+    .then((data) => {
+      // SAVE SESSION
+      localStorage.setItem("studentLoggedIn", "true");
+      localStorage.setItem("studentUSN", data.usn);
+      localStorage.setItem("studentName", data.student_name);
+
       window.location.href = "student-dashboard.html";
     })
     .catch(() => {
-      alert("Invalid or unapproved USN");
+      errorDiv.textContent = "Invalid or unapproved USN";
     });
 }
