@@ -7,7 +7,7 @@ function formatDate(dateString) {
 
 // ================= LOAD ISSUED BOOKS =================
 function loadIssuedBooks() {
-  fetch("http://localhost:3000/issue/issued-list")
+  fetch("https://smart-library-k8bd.onrender.com/issue/issued-list")
     .then(response => response.json())
     .then(data => {
       const table = document.getElementById("issuedTable");

@@ -11,7 +11,7 @@ document.getElementById("studentName").textContent =
   `Welcome, ${studentName} (${usn})`;
 
 // Load issued books
-fetch(`http://localhost:3000/issue/student/${usn}`)
+fetch(`https://smart-library-k8bd.onrender.com/issue/student/${usn}`)
   .then(res => res.json())
   .then(data => {
     const table = document.getElementById("studentTable");

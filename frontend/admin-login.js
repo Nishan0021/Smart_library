@@ -10,7 +10,7 @@ function adminLogin() {
     return;
   }
 
-  fetch("http://localhost:3000/admin/login", {
+  fetch("https://smart-library-k8bd.onrender.com/admin/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

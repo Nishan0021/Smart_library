@@ -9,7 +9,7 @@ function login() {
     return;
   }
 
-  fetch("http://localhost:3000/issue/student-login", {
+  fetch("https://smart-library-k8bd.onrender.com/issue/student-login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

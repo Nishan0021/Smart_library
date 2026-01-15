@@ -1,4 +1,4 @@
-fetch("http://localhost:3000/books")
+fetch("https://smart-library-k8bd.onrender.com/books/list")
   .then(response => response.json())
   .then(data => {
     const table = document.getElementById("bookTable");
