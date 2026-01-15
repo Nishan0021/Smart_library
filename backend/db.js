@@ -1,19 +1,19 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Nishan@2005",      // put MySQL password if you have one
-  database: "smart_library"
+  host: "sql.freedb.tech",
+  user: "freedb_smart_library",
+  password: "KesEa7$?EY?@gVK",   // your FreeDB password
+  database: "freedb_MySQL",
+  port: 3306,
 });
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
-    console.log("Database connection failed ❌");
-    console.error(err);
+    console.error("❌ MySQL connection failed:", err.message);
     return;
   }
-  console.log("MySQL Connected ✅");
+  console.log("✅ Connected to FreeDB MySQL");
 });
 
 module.exports = db;
