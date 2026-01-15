@@ -1,20 +1,15 @@
-const mysql = require("mysql2");
+// db.js - SUPABASE CONFIG
+const { createClient } = require("@supabase/supabase-js");
 
-const db = mysql.createConnection({
-  host: "sql.freedb.tech",
-  user: "freedb_smart_library",
-  password: "KesEa7$?EY?@gVK",   // exactly as FreeDB
-  database: "freedb_MySQL",
-  port: 3306,
-  connectTimeout: 10000
-});
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-db.connect((err) => {
-  if (err) {
-    console.error("❌ MySQL connection failed:", err.message);
-  } else {
-    console.log("✅ Connected to FreeDB MySQL");
-  }
-});
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error("❌ Missing Supabase environment variables");
+}
 
-module.exports = db;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log("✅ Supabase connected");
+
+module.exports = supabase;
