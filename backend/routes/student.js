@@ -1,62 +1,61 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const supabase = require("../db");
 
 /* =========================
    STUDENT LOGIN (USN ONLY)
    ========================= */
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { usn } = req.body;
 
   if (!usn) {
     return res.status(400).json({ message: "USN required" });
   }
 
-  const sql = "SELECT usn, student_name FROM students WHERE usn = ?";
+  const { data, error } = await supabase
+    .from("students")
+    .select("usn, student_name")
+    .eq("usn", usn)
+    .single();
 
-  db.query(sql, [usn], (err, results) => {
-    if (err) {
-      console.error("❌ LOGIN DB ERROR:", err.message);
-      return res.status(500).json({ message: "Database error" });
-    }
+  if (error) {
+    console.error("❌ SUPABASE ERROR:", error.message);
+    return res.status(500).json({ message: "Database error" });
+  }
 
-    if (results.length === 0) {
-      return res.status(401).json({ message: "Invalid USN" });
-    }
+  if (!data) {
+    return res.status(401).json({ message: "Invalid USN" });
+  }
 
-    return res.json({
-      success: true,
-      usn: results[0].usn,
-      student_name: results[0].student_name,
-    });
+  res.json({
+    success: true,
+    usn: data.usn,
+    student_name: data.student_name,
   });
 });
 
 /* =========================
-   STUDENT ISSUED BOOKS
+   ✅ STUDENT ISSUED BOOKS
    ========================= */
-router.get("/issued/:usn", (req, res) => {
-  const usn = req.params.usn;
+router.get("/issued/:usn", async (req, res) => {
+  const { usn } = req.params;
 
-  const sql = `
-    SELECT 
-      b.title,
-      i.issue_date,
-      i.return_date,
-      i.fine_amount
-    FROM issued_books i
-    JOIN books b ON i.book_id = b.book_id
-    WHERE i.student_usn = ?
-  `;
+  const { data, error } = await supabase
+    .from("issued_books")
+    .select(`
+      issue_date,
+      return_date,
+      fine_amount,
+      books ( title )
+    `)
+    .eq("student_usn", usn);
 
-  db.query(sql, [usn], (err, results) => {
-    if (err) {
-      console.error("❌ ISSUED DB ERROR:", err.message);
-      return res.status(500).json({ message: "Database error" });
-    }
+  if (error) {
+    console.error("❌ ISSUED BOOKS ERROR:", error.message);
+    return res.status(500).json({ message: "Database error" });
+  }
 
-    return res.json(results);
-  });
+  res.json(data);
 });
 
 module.exports = router;
