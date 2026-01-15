@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>Issued Books | Admin</title>
+
+  <!-- 🔐 ADMIN AUTH CHECK -->
+  <script>
+    if (localStorage.getItem("adminLoggedIn") !== "true") {
+      alert("Unauthorized access. Please login as admin.");
+      window.location.href = "admin-login.html";
+    }
+  </script>
+
   <style>
     body {
       margin: 0;
@@ -28,6 +37,20 @@
     header span {
       font-size: 14px;
       opacity: 0.9;
+    }
+
+    .logout-btn {
+      background: #8b0000;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: #b00000;
     }
 
     /* CONTAINER */
@@ -116,6 +139,9 @@
       <h2>📋 Smart Library</h2>
       <span>Admin – Issued Books Management</span>
     </div>
+
+    <!-- 🚪 LOGOUT -->
+    <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
   </header>
 
   <!-- CONTENT -->
@@ -146,6 +172,14 @@
   <footer>
     © College Library | Smart Library Management System
   </footer>
+
+  <!-- LOGOUT SCRIPT -->
+  <script>
+    function logoutAdmin() {
+      localStorage.removeItem("adminLoggedIn");
+      window.location.href = "admin-login.html";
+    }
+  </script>
 
   <script src="issued.js"></script>
 </body>
