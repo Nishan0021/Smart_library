@@ -81,7 +81,7 @@
 
     <input type="text" id="usn" placeholder="Enter USN">
 
-    <button onclick="login()">Login</button>
+    <button onclick="studentLogin()">Login</button>
 
     <div style="text-align:center; margin-top:15px;">
      <a href="index.html" style="color:#003366; text-decoration:none;">
@@ -90,7 +90,7 @@
     </div>
 
 
-    <div id="error" class="error"></div>
+    <div id="error" style="color:red;"></div>
 
     <footer>
       © College Library | Official Portal
@@ -98,5 +98,49 @@
   </div>
 
   <script src="student-login.js"></script>
+
+  <script>
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://smart-library-k8bd.onrender.com";
+
+function studentLogin() {
+  const usn = document.getElementById("usn").value.trim();
+  const errorDiv = document.getElementById("error");
+
+  errorDiv.textContent = "";
+
+  if (!usn) {
+    errorDiv.textContent = "Please enter USN";
+    return;
+  }
+
+  fetch(`${BASE_URL}/student/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ usn })
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("Invalid USN");
+      return res.json();
+    })
+    .then(data => {
+      // ✅ SAVE LOGIN DATA
+      localStorage.setItem("studentLoggedIn", "true");
+      localStorage.setItem("studentUSN", data.usn);
+      localStorage.setItem("studentName", data.student_name);
+
+      // ✅ REDIRECT
+      window.location.href = "student-dashboard.html";
+    })
+    .catch(() => {
+      errorDiv.textContent = "Invalid or unapproved USN";
+    });
+}
+</script>
+
 </body>
 </html>
