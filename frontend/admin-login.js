@@ -22,8 +22,11 @@ function adminLogin() {
       return res.json();
     })
     .then(() => {
-      localStorage.setItem("admin_logged_in", "true");
-      window.location.href = "admin-dashboard.html";
+      // ✅ CONSISTENT KEY
+      localStorage.setItem("adminLoggedIn", "true");
+
+      // ✅ CORRECT PAGE
+      window.location.href = "issued.html";
     })
     .catch(() => {
       errorDiv.textContent = "Invalid admin credentials";
